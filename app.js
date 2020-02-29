@@ -1,21 +1,30 @@
 const express = require("express");
 const mongoose = require("mongoose");
+const hdbr = require("express-handlebars");
 const port = 3000;
 const app = express();
 const Todo = require("./model/todo");
 
-mongoose.connect("mongodb://localhost/Todo", {
+mongoose.connect("mongodb://localhost/todo", {
   useNewUrlParser: true,
   useUnifiedTopology: true
 });
 const db = mongoose.connection;
 
+app.engine("handlebars", hdbr({ defaultLayout: "main" }));
+app.set("view engine", "handlebars");
+
 app.get("/", (req, res) => {
-  res.send("hello world!");
+  Todo.find()
+    .lean()
+    .exec((err, result) => {
+      if (err) return console.error(err);
+      return res.render("index", { todos: result });
+    });
 });
 // 列出全部 Todo
 app.get("/todos", (req, res) => {
-  res.send("列出所有 Todo");
+  return res.redirect("/");
 });
 // 新增一筆 Todo 頁面
 app.get("/todos/new", (req, res) => {
