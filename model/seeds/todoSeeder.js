@@ -1,17 +1,17 @@
-const mongoose = require('mongoose')
-const Todo = require('../todo')
+const mongoose = require("mongoose");
+const Todo = require("../todo");
 
-mongoose.connect('mongodb://localhost/todo', {useNewUrlParser:true})
+mongoose.connect("mongodb://localhost/todo", { useNewUrlParser: true });
 
-const db = mongoose.connection
+const db = mongoose.connection;
 
-db.on('error', ()=>{
-  console.log('db error')
-})
+db.on("error", () => {
+  console.log("db error");
+});
 
-db.once('open', ()=>{
-    for(var i=0; i<10; i++){
-        Todo.create({name:'name-'+i})
-    }
-    console.log('db connected!')
-})
+db.once("open", () => {
+  for (var i = 0; i < 10; i++) {
+    Todo.create({ name: "name-" + i });
+  }
+  console.log("db connected!");
+});
