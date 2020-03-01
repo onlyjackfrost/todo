@@ -23,6 +23,36 @@ app.get("/", (req, res) => {
       return res.render("index", { todos: result });
     });
 });
+// 修改 Todo 頁面
+app.get("/todos/:id/edit", (req, res) => {
+  Todo.findById(req.params.id)
+    .lean()
+    .exec((err, todo) => {
+      if (err) return console.error(err);
+      return res.render("edit", { todo });
+    });
+});
+// 修改 Todo
+app.post("/todos/:id/edit", (req, res) => {
+  Todo.findById(req.params.id, (err, todo) => {
+    if (err) return console.error(err);
+    todo.name = req.body.name;
+    todo.save(err => {
+      if (err) return console.error(err);
+      res.redirect(`/todos/${req.params.id}`);
+    });
+  });
+});
+// 刪除 Todo
+app.post("/todos/:id/delete", (req, res) => {
+  Todo.findById(req.params.id, (err, todo) => {
+    if (err) return console.error(err);
+    todo.remove(err => {
+      if (err) return console.error(err);
+      return res.redirect("/");
+    });
+  });
+});
 // 顯示一筆 Todo 的詳細內容
 app.get("/todos/:id", (req, res) => {
   const todo = Todo.findById(req.params.id)
@@ -51,18 +81,6 @@ app.post("/todos", (req, res) => {
     if (err) return console.error(err);
     return res.redirect("/");
   });
-});
-// 修改 Todo 頁面
-app.get("/todos/:id/edit", (req, res) => {
-  res.send("修改 Todo 頁面");
-});
-// 修改 Todo
-app.post("/todos/:id/edit", (req, res) => {
-  res.send("修改 Todo");
-});
-// 刪除 Todo
-app.post("/todos/:id/delete", (req, res) => {
-  res.send("刪除 Todo");
 });
 
 db.on("error", err => {
