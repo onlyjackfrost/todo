@@ -23,6 +23,15 @@ app.get("/", (req, res) => {
       return res.render("index", { todos: result });
     });
 });
+// 顯示一筆 Todo 的詳細內容
+app.get("/todos/:id", (req, res) => {
+  const todo = Todo.findById(req.params.id)
+    .lean()
+    .exec((err, todo) => {
+      if (err) return console.error(err);
+      return res.render("detail", { todo });
+    });
+});
 // 列出全部 Todo
 app.get("/todos", (req, res) => {
   return res.redirect("/");
@@ -31,10 +40,6 @@ app.get("/todos", (req, res) => {
 app.get("/todos/new", (req, res) => {
   res.render("new");
 });
-// 顯示一筆 Todo 的詳細內容
-app.get("/todos/:id", (req, res) => {
-  res.send("顯示 Todo 的詳細內容");
-});
 // 新增一筆  Todo
 app.post("/todos", (req, res) => {
   const { name } = req.body;
@@ -42,6 +47,7 @@ app.post("/todos", (req, res) => {
     name: req.body.name
   });
   todo.save(err => {
+    console.log({ err });
     if (err) return console.error(err);
     return res.redirect("/");
   });
