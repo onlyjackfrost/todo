@@ -4,7 +4,10 @@
 <ul>
     {{#each todos}}
     <li>
+        <!-- ./views/index.handlebars -->
+        <input type="checkbox" name="done" {{#if this.done}} checked{{/if}} disabled>
         {{{this.name}}}
+        <a href="/todos/{{{this._id}}}/edit">Edit</a>
         <a href="/todos/{{{this._id}}}">detail</a>
         <form action="/todos/{{{this._id}}}/delete" method="POST" style="display: inline;">
             <button type="submit">delete</button>
