@@ -2,6 +2,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 const methodOverride = require("method-override");
 const hdbr = require("express-handlebars");
+const session = require("express-session");
 const bodyParser = require("body-parser");
 const port = 3000;
 const app = express();
@@ -12,6 +13,13 @@ mongoose.connect("mongodb://localhost/todo", {
 });
 const db = mongoose.connection;
 
+app.use(
+  session({
+    secret: "your secret key",
+    resave: false,
+    saveUninitialized: true
+  })
+);
 app.engine("handlebars", hdbr({ defaultLayout: "main" }));
 app.set("view engine", "handlebars");
 app.use(methodOverride("_method"));
