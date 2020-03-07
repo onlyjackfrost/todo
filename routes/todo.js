@@ -2,6 +2,16 @@ const express = require("express");
 const router = express.Router();
 const Todo = require("../model/todo");
 
+// 列出全部 Todo
+router.get("/", (req, res) => {
+  return res.redirect("/");
+});
+
+// 新增一筆 Todo 頁面
+router.get("/new", (req, res) => {
+  res.render("new");
+});
+
 // 修改 Todo 頁面
 router.get("/:id/edit", (req, res) => {
   Todo.findById(req.params.id)
@@ -19,14 +29,6 @@ router.get("/:id", (req, res) => {
       if (err) return console.error(err);
       return res.render("detail", { todo });
     });
-});
-// 列出全部 Todo
-router.get("/", (req, res) => {
-  return res.redirect("/");
-});
-// 新增一筆 Todo 頁面
-router.get("/new", (req, res) => {
-  res.render("new");
 });
 
 // 修改 Todo
@@ -58,7 +60,6 @@ router.delete("/:id", (req, res) => {
 
 // 新增一筆  Todo
 router.post("/", (req, res) => {
-  const { name } = req.body;
   const todo = new Todo({
     name: req.body.name
   });
