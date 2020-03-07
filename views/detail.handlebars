@@ -1,11 +1,22 @@
 <!-- ./views/detail.handlebars -->
-<p>
-    <input type="checkbox" name="done" {{#if todo.done}} checked{{/if}} disabled>
-    {{{todo.name}}}
-</p>
-
-<a href="/">back</a>
-<a href="/todos/{{{todo._id}}}/edit">Edit</a>
-<form action="/todos/{{{todo._id}}}?_method=DELETE" method="POST" style="display: inline;">
-    <button type="submit">delete</button>
+<form action="/todos/{{{todo._id}}}?_method=DELETE" method="POST" style="display: inline;"></form>
+    <div class="input-group">
+        <div class="input-group-prepend">
+            <div class="input-group-text">
+                <input type="checkbox" name="done" {{#if todo.done}} checked{{/if}} disabled>
+                {{{todo.name}}}
+            </div>
+        </div>
+        <input type="text" class="form-control" name="name" value="{{{todo.name}}}" disabled>
+        <div class="input-group-append">
+            <a href="/todos/{{{todo._id}}}/edit" class="btn btn-secondary">Edit</a>
+            
+                <button type="submit" class="btn btn-danger">delete</button>
+        </div>
+    </div>
 </form>
+
+
+    
+
+
