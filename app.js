@@ -17,6 +17,7 @@ app.set("view engine", "handlebars");
 app.use(bodyParser.urlencoded({ extended: true }));
 app.get("/", (req, res) => {
   Todo.find()
+    .sort({ name: "asc" })
     .lean()
     .exec((err, result) => {
       if (err) return console.error(err);
