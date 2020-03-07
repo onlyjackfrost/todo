@@ -1,17 +1,22 @@
 <!-- ./views/index.handlebars -->
-<a href="/todos/new">Create</a>
-
-<ul>
+<ul class="list-group">
     {{#each todos}}
-    <li>
-        <!-- ./views/index.handlebars -->
-        <input type="checkbox" name="done" {{#if this.done}} checked{{/if}} disabled>
-        {{{this.name}}}
-        <a href="/todos/{{{this._id}}}/edit">Edit</a>
-        <a href="/todos/{{{this._id}}}">detail</a>
-        <form action="/todos/{{{this._id}}}?_method=DELETE" method="POST" style="display: inline;">
-            <button type="submit">delete</button>
-        </form>
+    <li class="list-group-item">
+        <div class="row">
+            <div class="col-auto mr-auto">
+                <input style="vertical-align: middle;" type="checkbox" name="done" {{#if this.done}} checked{{/if}}
+                    disabled>
+                <h4 style="vertical-align: middle;display:inline"> {{{this.name}}}</h4>
+            </div>
+
+            <div class="col-auto">
+                <a href="/todos/{{{this._id}}}/edit" class="btn btn-secondary">Edit</a>
+                <a href="/todos/{{{this._id}}}" class="btn btn-success">detail</a>
+                <form action="/todos/{{{this._id}}}?_method=DELETE" method="POST" style="display: inline;">
+                    <button type="submit" class="btn btn-danger">delete</button>
+                </form>
+            </div>
+        </div>
     </li>
     {{/each}}
 </ul>
