@@ -18,7 +18,7 @@ app.use(methodOverride("_method"));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use("/", require("./routes/home"));
 app.use("/todos", require("./routes/todo"));
-app.use("/user", require("./routes/user"));
+app.use("/users", require("./routes/user"));
 
 db.on("error", err => {
   console.log("db error:", err);

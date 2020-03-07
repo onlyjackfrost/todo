@@ -19,8 +19,26 @@ router.get("/register", (req, res) => {
 });
 
 // 註冊檢查
-router.post("/register", (req, res) => {
-  res.send("register");
+router.post("/register", async (req, res) => {
+  try {
+    const { name, email, password, password2 } = req.body;
+    const exists = await User.findOne({ email });
+    if (exists) {
+      console.log("User already exists");
+      return res.render("register", {
+        // 使用者已經註冊過
+        name,
+        email,
+        password,
+        password2
+      });
+    }
+    const user = new User({ name, email, password });
+    await user.save();
+    return res.redirect("/");
+  } catch (err) {
+    console.error(err);
+  }
 });
 
 // 登出
